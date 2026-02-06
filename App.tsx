@@ -4,11 +4,13 @@ import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import InputView from './components/InputView';
 import PreviewView from './components/PreviewView';
 import HeartBackground from './components/HeartBackground';
+import MobileDesktopNotification from './components/MobileDesktopNotification';
 import { CardData } from './types';
 
 const App: React.FC = () => {
   return (
     <HashRouter>
+      <MobileDesktopNotification />
       <div className="min-h-screen relative overflow-hidden">
         <HeartBackground />
         <div className="relative z-10 w-full min-h-screen">
