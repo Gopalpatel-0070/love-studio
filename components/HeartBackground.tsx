@@ -39,11 +39,15 @@ const HeartBackground: React.FC = () => {
   const [hearts, setHearts] = useState<{ id: number; x: number; delay: number; size: number }[]>([]);
 
   useEffect(() => {
-    const newHearts = Array.from({ length: 15 }).map((_, i) => ({
+    // Reduce heart count on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    const heartCount = isMobile ? 8 : 15;
+    
+    const newHearts = Array.from({ length: heartCount }).map((_, i) => ({
       id: i,
       x: Math.random() * 100,
       delay: Math.random() * 10,
-      size: Math.random() * 20 + 20
+      size: Math.max(15, Math.random() * 20 + (isMobile ? 10 : 20))
     }));
     setHearts(newHearts);
   }, []);
