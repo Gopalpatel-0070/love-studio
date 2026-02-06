@@ -33,14 +33,22 @@ const PreviewView: React.FC<Props> = ({ data, onEdit }) => {
 
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
-    
-    const padding = 10;
-    const availableWidth = pdfWidth - (padding * 2);
-    const imgProps = pdf.getImageProperties(imgData);
-    const renderWidth = availableWidth;
-    const renderHeight = (imgProps.height * renderWidth) / imgProps.width;
 
-    const x = padding;
+    const padding = 10;
+    const maxWidth = pdfWidth - padding * 2;
+    const maxHeight = pdfHeight - padding * 2;
+
+    // Use canvas dimensions for more accurate scaling
+    const imgWidthPx = canvas.width;
+    const imgHeightPx = canvas.height;
+
+    // Compute a uniform scale so the image fits within both width and height
+    const scale = Math.min(maxWidth / imgWidthPx, maxHeight / imgHeightPx);
+    const renderWidth = imgWidthPx * scale;
+    const renderHeight = imgHeightPx * scale;
+
+    // Center the image on the page
+    const x = (pdfWidth - renderWidth) / 2;
     const y = (pdfHeight - renderHeight) / 2;
 
     pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight, undefined, 'FAST');
